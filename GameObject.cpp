@@ -1,19 +1,21 @@
 #include "GameObject.h"
 
-GameObject::GameObject(string type, Geometry geometry, Material material) : _geometry(geometry), _type(type), _material(material)
+GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appearance(appearance)
 {
+	_appearance = new Appearance();
+	_transform = new Transform();
+
 	_parent = nullptr;
 	//_position = Vector3();
 	//_rotation = Vector3();
 	_transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-
-	_textureRV = nullptr;
-	_transform = new Transform();
+	_appearance->SetTextureRV(nullptr);
 }
 
 GameObject::~GameObject()
 {
-	_textureRV = nullptr;
+	_appearance->SetTextureRV(nullptr);
+	_appearance = nullptr;
 	_parent = nullptr;
 	_transform = nullptr;
 }
@@ -25,11 +27,11 @@ void GameObject::Update(float t)
 	XMMATRIX rotation = XMMatrixRotationX(_transform->GetRotation().x) * XMMatrixRotationY(_transform->GetRotation().y) * XMMatrixRotationZ(_transform->GetRotation().z);
 	XMMATRIX translation = XMMatrixTranslation(_transform->GetPosition().x, _transform->GetPosition().y, _transform->GetPosition().z);
 
-	XMStoreFloat4x4(&_world, scale * rotation * translation);
+	XMStoreFloat4x4(&_transform->GetWorld(), scale * rotation * translation);
 
 	if (_parent != nullptr)
 	{
-		XMStoreFloat4x4(&_world, this->GetWorldMatrix() * _parent->GetWorldMatrix());
+		XMStoreFloat4x4(&_transform->GetWorld(), this->_transform->GetWorldMatrix() * _parent->_transform->GetWorldMatrix());
 	}
 }
 
@@ -38,8 +40,10 @@ void GameObject::Draw(ID3D11DeviceContext * pImmediateContext)
 	// NOTE: We are assuming that the constant buffers and all other draw setup has already taken place
 
 	// Set vertex and index buffers
-	pImmediateContext->IASetVertexBuffers(0, 1, &_geometry.vertexBuffer, &_geometry.vertexBufferStride, &_geometry.vertexBufferOffset);
-	pImmediateContext->IASetIndexBuffer(_geometry.indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+	Geometry* temp = &_appearance->GetGeometryData();
 
-	pImmediateContext->DrawIndexed(_geometry.numberOfIndices, 0, 0);
+	pImmediateContext->IASetVertexBuffers(0, 1, &temp->vertexBuffer, &temp->vertexBufferStride, &temp->vertexBufferOffset);
+	pImmediateContext->IASetIndexBuffer(temp->indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+
+	pImmediateContext->DrawIndexed(temp->numberOfIndices, 0, 0);
 }

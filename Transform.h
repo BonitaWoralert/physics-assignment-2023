@@ -20,9 +20,15 @@ public:
 	void SetRotation(float x, float y, float z) { _rotation.x = x; _rotation.y = y; _rotation.z = z; }
 
 	Vector3 GetRotation() const { return _rotation; }
+
+	//world matrix
+	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(&_world); }
+	XMFLOAT4X4 GetWorld() const { return _world; }
 private:
 	Vector3 _position;
 	Vector3 _rotation;
 	Vector3 _scale;
+
+	XMFLOAT4X4 _world;
 };
 
