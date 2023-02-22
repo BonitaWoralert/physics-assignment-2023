@@ -28,8 +28,12 @@ public:
 	Transform* GetTransform() { return _transform; }
 	Appearance* GetAppearance() { return _appearance; }
 
+	//world matrix
+	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(&_world); }
+
 private:
 	string _type;
+	XMFLOAT4X4 _world;
 
 	GameObject * _parent;
 	Transform* _transform;

@@ -5,7 +5,7 @@
 class Appearance
 {
 public:
-	Appearance();
+	Appearance(Geometry geo, Material mat);
 	~Appearance();
 
 	Geometry GetGeometryData() const { return _geometry; }
