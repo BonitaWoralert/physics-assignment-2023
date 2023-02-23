@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appearance(appearance)
-{
+{	
 	_transform = new Transform();
 
 	_parent = nullptr;
