@@ -14,6 +14,10 @@
 #include "GameObject.h"
 #include "Vector3.h"
 
+#include "Timer.h"
+
+#define FPS60 1.0f/60.0f
+
 using namespace DirectX;
 
 class Application
@@ -72,6 +76,9 @@ private:
 
 	ID3D11RasterizerState* CCWcullMode;
 	ID3D11RasterizerState* CWcullMode;
+
+	//timer
+	Timer* _timer;
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);

@@ -20,8 +20,6 @@ public:
 	void SetRotation(float x, float y, float z) { _rotation.x = x; _rotation.y = y; _rotation.z = z; }
 
 	Vector3 GetRotation() const { return _rotation; }
-
-	//XMFLOAT4X4 GetWorld() const { return _world; }
 private:
 	Vector3 _position;
 	Vector3 _rotation;

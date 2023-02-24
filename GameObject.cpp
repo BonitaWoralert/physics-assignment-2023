@@ -5,8 +5,6 @@ GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appe
 	_transform = new Transform();
 
 	_parent = nullptr;
-	//_position = Vector3();
-	//_rotation = Vector3();
 	_transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 	_appearance->SetTextureRV(nullptr);
 }
