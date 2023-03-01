@@ -694,13 +694,11 @@ void Application::moveBackward(int objectNumber)
 void Application::Update()
 {
 	//fixed delta time
-	float accumulatedtime = 0.0f;
-	accumulatedtime = _timer->GetDeltaTime();
-	std::string debugstring = std::to_string(accumulatedtime);
+	float accumulatedtime = _timer->GetDeltaTime();
 
 	while (accumulatedtime >= FPS60)
 	{
-        OutputDebugStringA((debugstring + "\n").c_str());
+		DebugPrintF("deltaTime is %f \n", accumulatedtime);
 	
         // Update our time
         static float timeSinceStart = 0.0f;
