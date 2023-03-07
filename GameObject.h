@@ -8,6 +8,7 @@
 
 #include "Transform.h"
 #include "Appearance.h"
+#include "PhysicsModel.h"
 
 using namespace DirectX;
 using namespace std;
@@ -38,5 +39,6 @@ private:
 	GameObject * _parent;
 	Transform* _transform;
 	Appearance* _appearance;
+	PhysicsModel* _physics;
 };
 

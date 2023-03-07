@@ -10,4 +10,5 @@ void PhysicsModel::Update(float deltaTime)
 	Vector3 position = _transform->GetPosition();
 	position += _velocity * deltaTime;
 	_transform->SetPosition(position);
+	_velocity += _acceleration * deltaTime;
 }

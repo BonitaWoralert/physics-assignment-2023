@@ -7,6 +7,7 @@ class PhysicsModel
 protected:
 	Transform* _transform;
 	Vector3 _velocity;
+	Vector3 _acceleration;
 public:
 	PhysicsModel(Transform* transform);
 	void Update(float deltaTime);
