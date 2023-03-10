@@ -7,6 +7,8 @@ GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appe
 	_parent = nullptr;
 	_transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 	_appearance->SetTextureRV(nullptr);
+
+	_particleModel = new ParticleModel(_transform);
 }
 
 GameObject::~GameObject()

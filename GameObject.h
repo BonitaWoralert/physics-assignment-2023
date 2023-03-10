@@ -8,7 +8,7 @@
 
 #include "Transform.h"
 #include "Appearance.h"
-#include "PhysicsModel.h"
+#include "ParticleModel.h"
 
 using namespace DirectX;
 using namespace std;
@@ -28,6 +28,7 @@ public:
 
 	Transform* GetTransform() { return _transform; }
 	Appearance* GetAppearance() { return _appearance; }
+	PhysicsModel* GetPhysicsModel() { return _physics; }
 
 	//world matrix
 	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(&_world); }
@@ -40,5 +41,6 @@ private:
 	Transform* _transform;
 	Appearance* _appearance;
 	PhysicsModel* _physics;
+	ParticleModel* _particleModel;
 };
 

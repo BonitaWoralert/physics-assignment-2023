@@ -190,7 +190,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	gameObject->GetTransform()->SetPosition(-6.0f, 0.5f, 10.0f);
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 	_gameObjects.push_back(gameObject);
-	
+	_gameObjects[1]->GetPhysicsModel()->SetVelocity(Vector3(0, 1, 0));
 
 	return S_OK;
 }

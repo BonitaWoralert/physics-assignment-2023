@@ -10,10 +10,10 @@ protected:
 	Vector3 _acceleration;
 public:
 	PhysicsModel(Transform* transform);
-	void Update(float deltaTime);
+	virtual void Update(float deltaTime) = 0;
 
 	//get and set
-	Vector3 GetVelocity() { return _velocity; }
-	Vector3 SetVelocity(Vector3 velocity) { _velocity = velocity; }
+	virtual Vector3 GetVelocity() { return _velocity;}
+	virtual void SetVelocity(Vector3 velocity) { _velocity = velocity; }
 };
 
