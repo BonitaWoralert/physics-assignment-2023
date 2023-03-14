@@ -190,7 +190,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	gameObject->GetTransform()->SetPosition(-6.0f, 0.5f, 10.0f);
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 	_gameObjects.push_back(gameObject);
-	_gameObjects[1]->GetPhysicsModel()->SetVelocity(Vector3(0, 1, 0));
+	
+	//constant velocity
+	//_gameObjects[1]->GetParticleModel()->SetVelocity(Vector3(0, 1, 0));
 
 	return S_OK;
 }
@@ -679,9 +681,14 @@ void Application::Cleanup()
 
 void Application::moveForward(int objectNumber)
 {
+	/*
 	Vector3 position = _gameObjects[objectNumber]->GetTransform()->GetPosition();
 	position.z -= 0.02f;
 	_gameObjects[objectNumber]->GetTransform()->SetPosition(position);
+	*/
+	
+	//DebugPrintF("%f")
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, -0.001f));
 }
 
 void Application::moveBackward(int objectNumber)
@@ -698,7 +705,7 @@ void Application::Update()
 
 	while (accumulatedtime >= FPS60)
 	{
-		DebugPrintF("deltaTime is %f \n", accumulatedtime);
+		//DebugPrintF("deltaTime is %f \n", accumulatedtime);
 	
         // Update our time
         static float timeSinceStart = 0.0f;

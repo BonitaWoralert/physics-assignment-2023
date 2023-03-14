@@ -8,7 +8,7 @@ GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appe
 	_transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 	_appearance->SetTextureRV(nullptr);
 
-	_particleModel = new ParticleModel(_transform);
+	_particleModel = new ParticleModel(_transform, 1.0f);
 }
 
 GameObject::~GameObject()
@@ -21,7 +21,7 @@ GameObject::~GameObject()
 
 void GameObject::Update(float t)
 {
-	_physics->Update(t);
+	_particleModel->Update(t);
 
 	// Calculate world matrix
 	XMMATRIX scale = XMMatrixScaling(_transform->GetScale().x, _transform->GetScale().y, _transform->GetScale().z);

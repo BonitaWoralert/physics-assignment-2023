@@ -4,10 +4,9 @@
 class ParticleModel : public PhysicsModel
 {
 protected:
-	Transform* _transform;
-	float _mass = 1.0f;
+
 public:
-	ParticleModel(Transform* transform);
+	ParticleModel(Transform* transform, float mass);
 	void Update(float deltaTime);
 };
 

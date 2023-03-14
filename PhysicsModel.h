@@ -13,8 +13,7 @@ protected:
 public:
 	PhysicsModel(Transform* transform, float mass);
 	virtual void Update(float deltaTime) = 0;
-
-	void AddForce(Vector3 force) { _netForce += force; }
+	virtual void AddForce(Vector3 force) { _netForce += force; }
 
 	//get and set
 	virtual Vector3 GetVelocity() { return _velocity;}
