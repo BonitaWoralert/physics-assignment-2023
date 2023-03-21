@@ -1,9 +1,10 @@
 #include "PhysicsModel.h"
 
-PhysicsModel::PhysicsModel(Transform* transform, float mass)
+PhysicsModel::PhysicsModel(Transform* transform, float mass, bool simulateGravity)
 {
 	_transform = transform;
 	_mass = mass;
+	_simulateGravity = simulateGravity;
 }
 
 void PhysicsModel::Update(float deltaTime)

@@ -1,19 +1,25 @@
 #include "ParticleModel.h"
 #include "Debug.h"
 
-ParticleModel::ParticleModel(Transform* transform, float mass) : PhysicsModel(transform, mass)
+ParticleModel::ParticleModel(Transform* transform, float mass, bool simulateGravity) : PhysicsModel(transform, mass, simulateGravity)
 {
 	_transform = transform;
 	_mass = mass;
+	_simulateGravity = simulateGravity;
 }
 
 void ParticleModel::Update(float deltaTime)
 {
-	_acceleration += _netForce / _mass;
+	//gravity
+	if (_simulateGravity)
+	{
+		_netForce += GravityForce();
+	}
+	
 	// velocity and position as done with constant acceleration
+	_acceleration += _netForce / _mass;
 
 	//constant acceleration
-	
 	Vector3 position = _transform->GetPosition();
 	_velocity += _acceleration * deltaTime;
 	position += _velocity * deltaTime;
