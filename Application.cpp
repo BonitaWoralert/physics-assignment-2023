@@ -166,7 +166,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	noSpecMaterial.specularPower = 0.0f;
 	
 	Appearance* appearance = new Appearance(planeGeometry, noSpecMaterial);
-	GameObject* gameObject = new GameObject("Floor", appearance);
+	GameObject* gameObject = new GameObject("Floor", appearance, false, 1.0f);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
 	gameObject->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
@@ -177,15 +177,15 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
 		appearance = new Appearance(cubeGeometry, shinyMaterial);
-		gameObject = new GameObject("Cube " + to_string(i), appearance);
+		gameObject = new GameObject("Cube " + to_string(i), appearance, true, 1.0f);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
-		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 1.0f, 10.0f);
+		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 4.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 
 		_gameObjects.push_back(gameObject);
 	}
 	appearance = new Appearance(donutGeometry, shinyMaterial);
-	gameObject = new GameObject("Donut", appearance);
+	gameObject = new GameObject("Donut", appearance, false, 1.0f);
 	gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 	gameObject->GetTransform()->SetPosition(-6.0f, 0.5f, 10.0f);
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);

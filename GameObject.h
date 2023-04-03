@@ -16,7 +16,7 @@ using namespace std;
 class GameObject
 {
 public:
-	GameObject(string type, Appearance* appearance);
+	GameObject(string type, Appearance* appearance, bool gravity, float mass);
 	~GameObject();
 
 	string GetType() const { return _type; }
@@ -36,6 +36,8 @@ public:
 
 private:
 	string _type;
+	bool _gravity;
+	float _mass = 1.0f;
 	XMFLOAT4X4 _world;
 
 	GameObject * _parent;

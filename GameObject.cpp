@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appearance(appearance)
+GameObject::GameObject(string type, Appearance* appearance, bool gravity, float mass) : _type(type), _appearance(appearance), _gravity(gravity), _mass(mass)
 {	
 	_transform = new Transform();
 
@@ -8,7 +8,10 @@ GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appe
 	_transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 	_appearance->SetTextureRV(nullptr);
 
-	_particleModel = new ParticleModel(_transform, 1.0f, false);
+	_particleModel = new ParticleModel(_transform);
+	_particleModel->SetMass(_mass);
+	if (gravity)
+		_particleModel->SetGravity(true);
 }
 
 GameObject::~GameObject()
