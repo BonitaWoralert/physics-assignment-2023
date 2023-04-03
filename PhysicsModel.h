@@ -1,5 +1,9 @@
 #pragma once
 #define GRAVITYSTRENGTH -9.81
+#define DRAGCOEFFICIENT 0.5
+#define DENSITY 1.2
+#define AREA 1.0
+
 #include "Transform.h"
 
 class PhysicsModel
@@ -22,7 +26,17 @@ public:
 
 	//forces
 	virtual void AddForce(Vector3 force) { _netForce += force; }
-	virtual Vector3 GravityForce() { return Vector3(0, GRAVITYSTRENGTH*_mass, 0); }
+	virtual Vector3 GravityForce() { return Vector3(0, -0.981*_mass, 0); }
+
+	virtual Vector3 DragForce() { 
+		Vector3 direction = _velocity;
+		direction.Reverse();
+		direction.Normalize();
+		float speed = _velocity.Magnitude();
+		Vector3 dragForce = 0.5 * DENSITY * DRAGCOEFFICIENT * AREA * pow(speed, 2) * direction;
+
+		return dragForce;
+	}
 
 	//get and set
 	virtual Vector3 GetVelocity() { return _velocity;}

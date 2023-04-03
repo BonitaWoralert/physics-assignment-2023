@@ -177,7 +177,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
 		appearance = new Appearance(cubeGeometry, shinyMaterial);
-		gameObject = new GameObject("Cube " + to_string(i), appearance, true, 1.0f);
+		gameObject = new GameObject("Cube " + to_string(i), appearance, false, 0.01f);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 4.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_pTextureRV);

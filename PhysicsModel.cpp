@@ -15,6 +15,9 @@ void PhysicsModel::Update(float deltaTime)
 		_netForce += GravityForce();
 	}
 
+	//drag
+	_netForce += DragForce();
+
 	// velocity and position as done with constant acceleration
 	_acceleration += _netForce / _mass;
 
