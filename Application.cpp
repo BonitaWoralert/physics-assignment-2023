@@ -177,7 +177,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
 		appearance = new Appearance(cubeGeometry, shinyMaterial);
-		gameObject = new GameObject("Cube " + to_string(i), appearance, false, 0.01f);
+		gameObject = new GameObject("Cube " + to_string(i), appearance, true, 1.0f);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 4.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
@@ -688,36 +688,26 @@ void Application::moveForward(int objectNumber)
 	*/
 	
 	//DebugPrintF("%f")
-	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, -0.001f));
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, -1.0f));
 }
 
 void Application::moveBackward(int objectNumber)
 {
-	Vector3 position = _gameObjects[objectNumber - 2]->GetTransform()->GetPosition();
-	position.z += 0.02f;
-	_gameObjects[objectNumber-2]->GetTransform()->SetPosition(position);
+	//Vector3 position = _gameObjects[objectNumber - 2]->GetTransform()->GetPosition();
+	//position.z += 0.02f;
+	//_gameObjects[objectNumber-2]->GetTransform()->SetPosition(position);
+
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, 1.0f));
 }
 
 void Application::Update()
 {
 	//fixed delta time
-	float accumulatedtime = _timer->GetDeltaTime();
+	static float accumulatedtime = 0;
+	accumulatedtime += _timer->GetDeltaTime();
 
 	while (accumulatedtime >= FPS60)
 	{
-		//DebugPrintF("deltaTime is %f \n", accumulatedtime);
-	
-        // Update our time
-        static float timeSinceStart = 0.0f;
-        static DWORD dwTimeStart = 0;
-
-        DWORD dwTimeCur = GetTickCount64();
-
-        if (dwTimeStart == 0)
-            dwTimeStart = dwTimeCur;
-
-        timeSinceStart = (dwTimeCur - dwTimeStart) / 1000.0f;
-
         // Move gameobject
         if (GetAsyncKeyState('1'))
         {
@@ -751,9 +741,9 @@ void Application::Update()
         // Update objects
         for (auto gameObject : _gameObjects)
         {
-            gameObject->Update(timeSinceStart);
+            gameObject->Update(FPS60);
         }
-
+		DebugPrintF(to_string(accumulatedtime).c_str());
         _timer->Tick();
 		accumulatedtime -= FPS60;
 	}

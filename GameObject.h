@@ -37,7 +37,7 @@ public:
 private:
 	string _type;
 	bool _gravity;
-	float _mass = 1.0f;
+	float _mass = 10.0f;
 	XMFLOAT4X4 _world;
 
 	GameObject * _parent;

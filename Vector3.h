@@ -19,6 +19,7 @@ public:
     Vector3(float xi, float yi, float zi);
 
     float Magnitude(void);
+    float MagnitudeSq(void);
     void  Normalize(void);
     void  Reverse(void);
 
@@ -48,6 +49,11 @@ inline Vector3::Vector3(float xi, float yi, float zi)
 inline float Vector3::Magnitude(void)
 {
     return (float)sqrt(x * x + y * y + z * z);
+}
+
+inline float Vector3::MagnitudeSq(void)
+{
+    return (float)(x * x + y * y + z * z);
 }
 
 inline void Vector3::Normalize(void)

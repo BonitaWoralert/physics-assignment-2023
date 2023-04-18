@@ -1,6 +1,6 @@
 #pragma once
 #define GRAVITYSTRENGTH -9.81
-#define DRAGCOEFFICIENT 0.5
+#define DRAGCOEFFICIENT 0.5f
 #define DENSITY 1.2
 #define AREA 1.0
 
@@ -32,8 +32,7 @@ public:
 		Vector3 direction = _velocity;
 		direction.Reverse();
 		direction.Normalize();
-		float speed = _velocity.Magnitude();
-		Vector3 dragForce = 0.5 * DENSITY * DRAGCOEFFICIENT * AREA * pow(speed, 2) * direction;
+		Vector3 dragForce = 0.5 * DENSITY * DRAGCOEFFICIENT * AREA * _velocity.Magnitude() * direction;
 
 		return dragForce;
 	}

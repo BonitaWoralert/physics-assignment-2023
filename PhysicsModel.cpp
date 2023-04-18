@@ -10,9 +10,13 @@ void PhysicsModel::Update(float deltaTime)
 	Vector3 position = _transform->GetPosition();
 
 	//gravity
-	if (_simulateGravity && (position.y > 0.0f))
+	if (_simulateGravity && (position.y > 1.0f))
 	{
 		_netForce += GravityForce();
+	}
+	else
+	{
+		_velocity.y = 0;
 	}
 
 	//drag
@@ -23,6 +27,7 @@ void PhysicsModel::Update(float deltaTime)
 
 	//constant acceleration
 	_velocity += _acceleration * deltaTime;
+	
 	position += _velocity * deltaTime;
 	_transform->SetPosition(position);
 
