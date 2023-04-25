@@ -821,6 +821,8 @@ void Application::Update()
 		{
 			if(_gameObjects[1]->GetParticleModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetParticleModel()->GetCollider())) {
 				DebugPrintF("Collilililllision");
+				_gameObjects[1]->GetParticleModel()->ApplyImpulse(Vector3(-1, 0, 0));
+				_gameObjects[2]->GetParticleModel()->ApplyImpulse(Vector3(1, 0, 0));
 			}
 		}
 

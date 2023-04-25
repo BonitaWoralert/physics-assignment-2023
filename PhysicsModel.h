@@ -52,5 +52,8 @@ public:
 	bool IsCollideable() const { return _collider != nullptr; }
 	Collider* GetCollider() const { return _collider; }
 	void SetCollider(Collider* newCollider) { _collider = newCollider; }
+
+	//impulse
+	void ApplyImpulse(Vector3 impulse) { _velocity += impulse; }
 };
 
