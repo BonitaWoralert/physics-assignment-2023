@@ -167,6 +167,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	
 	Appearance* appearance = new Appearance(planeGeometry, noSpecMaterial);
 	GameObject* gameObject = new GameObject("Floor", appearance, false, 1.0f);
+	
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
 	gameObject->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
@@ -178,9 +179,11 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	{
 		appearance = new Appearance(cubeGeometry, shinyMaterial);
 		gameObject = new GameObject("Cube " + to_string(i), appearance, true, 1.0f);
+
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 4.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
+		
 
 		_gameObjects.push_back(gameObject);
 	}
@@ -193,7 +196,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	
 	//constant velocity
 	//_gameObjects[1]->GetParticleModel()->SetVelocity(Vector3(0, 1, 0));
-
+	_gameObjects[1]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[1]->GetTransform(), 1.0f));
+	_gameObjects[2]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[2]->GetTransform(), 1.0f));
 	return S_OK;
 }
 
@@ -737,6 +741,15 @@ void Application::Update()
 
         _camera->SetPosition(cameraPos);
         _camera->Update();
+
+		//collision code
+		if (_gameObjects[1]->GetParticleModel()->IsCollideable() && _gameObjects[2]->GetParticleModel()->IsCollideable())
+		{
+			if(_gameObjects[1]->GetParticleModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetParticleModel()->GetCollider())) {
+				DebugPrintF("Collilililllision");
+			}
+		}
+
 
         // Update objects
         for (auto gameObject : _gameObjects)

@@ -17,6 +17,7 @@
 #include "Timer.h"
 #include "Debug.h"
 
+
 #define FPS60 1.0f/60.0f
 
 using namespace DirectX;

@@ -5,10 +5,12 @@
 #define AREA 1.0
 
 #include "Transform.h"
-
+#include "Collider.h"
+#include "SphereCollider.h"
 class PhysicsModel
 {
 protected:
+	Collider* _collider;
 	Transform* _transform;
 	Vector3 _velocity;
 	Vector3 _acceleration;
@@ -43,5 +45,10 @@ public:
 
 	virtual void SetMass(float mass) { _mass = mass; }
 	virtual void SetGravity(bool grav) { _simulateGravity = grav; }
+
+	//colliders
+	bool IsCollideable() const { return _collider != nullptr; }
+	Collider* GetCollider() const { return _collider; }
+	void SetCollider(Collider* newCollider) { _collider = newCollider; }
 };
 
