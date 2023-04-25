@@ -46,6 +46,7 @@ public:
 	virtual void SetVelocity(Vector3 velocity) { _velocity = velocity; }
 
 	virtual void SetMass(float mass) { _mass = mass; }
+	virtual float GetMass() { return _mass; }
 	virtual void SetGravity(bool grav) { _simulateGravity = grav; }
 
 	//colliders
