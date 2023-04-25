@@ -93,6 +93,9 @@ private:
 
 	void moveForward(int objectNumber);
 	void moveBackward(int objectNumber);
+	void moveLeft(int objectNumber);
+	void moveRight(int objectNumber);
+	void moveUp(int objectNumber);
 
 public:
 	Application();

@@ -685,23 +685,28 @@ void Application::Cleanup()
 
 void Application::moveForward(int objectNumber)
 {
-	/*
-	Vector3 position = _gameObjects[objectNumber]->GetTransform()->GetPosition();
-	position.z -= 0.02f;
-	_gameObjects[objectNumber]->GetTransform()->SetPosition(position);
-	*/
-	
-	//DebugPrintF("%f")
-	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, -1.0f));
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, 1.0f));
 }
 
 void Application::moveBackward(int objectNumber)
 {
-	//Vector3 position = _gameObjects[objectNumber - 2]->GetTransform()->GetPosition();
-	//position.z += 0.02f;
-	//_gameObjects[objectNumber-2]->GetTransform()->SetPosition(position);
 
-	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, 1.0f));
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, -1.0f));
+}
+
+void Application::moveLeft(int objectNumber)
+{
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(-1.0f, 0, 0));
+}
+
+void Application::moveRight(int objectNumber)
+{
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(1.0f, 0, 0));
+}
+
+void Application::moveUp(int objectNumber)
+{
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 2.0f, 0));
 }
 
 void Application::Update()
@@ -712,23 +717,92 @@ void Application::Update()
 
 	while (accumulatedtime >= FPS60)
 	{
+
+#define Key_W 0x57
+#define Key_A 0x41
+#define Key_S 0x53
+#define Key_D 0x44
+
         // Move gameobject
-        if (GetAsyncKeyState('1'))
-        {
-            moveForward(1);
-        }
-        if (GetAsyncKeyState('2'))
-        {
-            moveForward(2);
-        }
-        if (GetAsyncKeyState('3'))
-        {
-            moveBackward(3);
-        }
-        if (GetAsyncKeyState('4'))
-        {
-            moveBackward(4);
-        }
+
+		//wasd + space
+		if (GetAsyncKeyState(VK_SPACE))
+		{
+			moveUp(1);
+		}
+		if (GetAsyncKeyState(Key_W)) 
+		{
+			moveForward(1);
+		}
+		if (GetAsyncKeyState(Key_A))
+		{
+			moveLeft(1);
+		}
+		if (GetAsyncKeyState(Key_S))
+		{
+			moveBackward(1);
+		}
+		if (GetAsyncKeyState(Key_D))
+		{
+			moveRight(1);
+		}
+
+#define Key_I 0x49
+#define Key_J 0x4A
+#define Key_K 0x4B
+#define Key_L 0x4C
+#define Key_N 0x4E
+
+		//IJKL + N
+		if (GetAsyncKeyState(Key_N))
+		{
+			moveUp(2);
+		}
+		if (GetAsyncKeyState(Key_I))
+		{
+			moveForward(2);
+		}
+		if (GetAsyncKeyState(Key_J))
+		{
+			moveLeft(2);
+		}
+		if (GetAsyncKeyState(Key_K))
+		{
+			moveBackward(2);
+		}
+		if (GetAsyncKeyState(Key_L))
+		{
+			moveRight(2);
+		}
+
+#define Key_T 0x54
+#define Key_F 0x46
+#define Key_G 0x47
+#define Key_H 0x48
+#define Key_C 0x43
+
+		//TFGH+ C
+		if (GetAsyncKeyState(Key_C))
+		{
+			moveUp(3);
+		}
+		if (GetAsyncKeyState(Key_T))
+		{
+			moveForward(3);
+		}
+		if (GetAsyncKeyState(Key_F))
+		{
+			moveLeft(3);
+		}
+		if (GetAsyncKeyState(Key_G))
+		{
+			moveBackward(3);
+		}
+		if (GetAsyncKeyState(Key_H))
+		{
+			moveRight(3);
+		}
+
         // Update camera
         float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
 
@@ -756,7 +830,7 @@ void Application::Update()
         {
             gameObject->Update(FPS60);
         }
-		DebugPrintF(to_string(accumulatedtime).c_str());
+		//DebugPrintF(to_string(accumulatedtime).c_str());
         _timer->Tick();
 		accumulatedtime -= FPS60;
 	}

@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Collider.h"
 #include "SphereCollider.h"
+#include "Debug.h"
 class PhysicsModel
 {
 protected:
@@ -36,6 +37,7 @@ public:
 		direction.Normalize();
 		Vector3 dragForce = 0.5 * DENSITY * DRAGCOEFFICIENT * AREA * _velocity.Magnitude() * direction;
 
+		DebugPrintF("drag is = (%f, %f, %f)\n", dragForce.x, dragForce.y, dragForce.z);
 		return dragForce;
 	}
 
