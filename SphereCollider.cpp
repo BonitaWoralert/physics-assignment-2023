@@ -16,3 +16,9 @@ bool SphereCollider::CollidesWith(SphereCollider& other)
     else
         return false;
 }
+
+bool SphereCollider::CollidesWith(PlaneCollider& other)
+{
+
+    return false;
+}

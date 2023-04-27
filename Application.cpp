@@ -187,6 +187,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 		_gameObjects.push_back(gameObject);
 	}
+	_gameObjects[2]->GetParticleModel()->SetMass(2.0f);
 	appearance = new Appearance(donutGeometry, shinyMaterial);
 	gameObject = new GameObject("Donut", appearance, false, 1.0f);
 	gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
@@ -816,16 +817,11 @@ void Application::Update()
         _camera->SetPosition(cameraPos);
         _camera->Update();
 
-		//collision code
+		//collision code - 2 spheres
 		if (_gameObjects[1]->GetParticleModel()->IsCollideable() && _gameObjects[2]->GetParticleModel()->IsCollideable())
 		{
 			if(_gameObjects[1]->GetParticleModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetParticleModel()->GetCollider())) {
-				/*
-				DebugPrintF("Collilililllision");
-				_gameObjects[1]->GetParticleModel()->ApplyImpulse(Vector3(-1, 0, 0));
-				_gameObjects[2]->GetParticleModel()->ApplyImpulse(Vector3(1, 0, 0));
-				*/
-
+				
 				Vector3 relativeVelocity = _gameObjects[1]->GetParticleModel()->GetVelocity() - _gameObjects[2]->GetParticleModel()->GetVelocity();
 				float restitution = 0.5;
 				Vector3 collisionNormal = _gameObjects[1]->GetTransform()->GetPosition() - _gameObjects[2]->GetTransform()->GetPosition();
@@ -842,21 +838,6 @@ void Application::Update()
 					_gameObjects[1]->GetParticleModel()->ApplyImpulse(inverseMass1 * J * collisionNormal);
 					_gameObjects[2]->GetParticleModel()->ApplyImpulse(-(inverseMass2 * J* collisionNormal));
 				}
-
-				/* 
-				Vector3 collision normal = object1 position – object 2 position // normalized
-				float restitution; // between 0 and 1 for testing
-				vector3 relative velocity = object1 velocity – object2 velocity // not normalized
-				
-				inversemass1 = 1 / object1Mass
-				inversemass2 = 1 / object2Mass
-
-				if(collisionNormal * relativeVelocity < 0.0f) //check objects are approaching each other
-					float totalVelocity = -(1+restitution) collisionNormal * relativeVelocity
-					float momentum = totalVelocity * (inverse mass 1 + inverse mass 2)
-					object1 -> ApplyImpulse(inverse Mass 1 * J * collisionNormal)
-					object2 -> ApplyImpulse (-(inverse Mass 2* J * collisionNormal)) //reversed 
-				*/
 			}
 		}
 
