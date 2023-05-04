@@ -139,6 +139,14 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	donutGeometry.vertexBufferOffset = objMeshData.VBOffset;
 	donutGeometry.vertexBufferStride = objMeshData.VBStride;
 	
+	Geometry sphereGeometry;
+	objMeshData = OBJLoader::Load("Assets/3DModels/sphere.obj", _pd3dDevice);
+	sphereGeometry.indexBuffer = objMeshData.IndexBuffer;
+	sphereGeometry.numberOfIndices = objMeshData.IndexCount;
+	sphereGeometry.vertexBuffer = objMeshData.VertexBuffer;
+	sphereGeometry.vertexBufferOffset = objMeshData.VBOffset;
+	sphereGeometry.vertexBufferStride = objMeshData.VBStride;
+
 	Geometry cubeGeometry;
 	cubeGeometry.indexBuffer = _pIndexBuffer;
 	cubeGeometry.vertexBuffer = _pVertexBuffer;
@@ -177,8 +185,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
-		appearance = new Appearance(cubeGeometry, shinyMaterial);
-		gameObject = new GameObject("Cube " + to_string(i), appearance, true, 1.0f);
+		appearance = new Appearance(sphereGeometry, shinyMaterial);
+		gameObject = new GameObject("Sphere " + to_string(i), appearance, true, 1.0f);
 
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 4.0f, 10.0f);
@@ -847,7 +855,7 @@ void Application::Update()
         {
             gameObject->Update(FPS60);
         }
-		//DebugPrintF(to_string(accumulatedtime).c_str());
+		DebugPrintF(to_string(accumulatedtime).c_str());
         _timer->Tick();
 		accumulatedtime -= FPS60;
 	}
