@@ -1,5 +1,5 @@
 #pragma once
-#define GRAVITYSTRENGTH -9.81
+#define GRAVITYSTRENGTH -0.981
 #define DRAGCOEFFICIENT 0.5f
 #define DENSITY 1.2
 #define AREA 1.0
@@ -21,15 +21,11 @@ protected:
 public:
 	PhysicsModel(Transform* tf);
 
-	//OLD
-	//instead, make get and set for mass / grav
-	//PhysicsModel(Transform* transform, float mass, bool simulateGravity);
-
 	virtual void Update(float deltaTime);
 
 	//forces
 	virtual void AddForce(Vector3 force) { _netForce += force; }
-	virtual Vector3 GravityForce() { return Vector3(0, -0.981*_mass, 0); }
+	virtual Vector3 GravityForce() { return Vector3(0, GRAVITYSTRENGTH*_mass, 0); } //gravity * mass for y value
 
 	virtual Vector3 DragForce() { 
 		Vector3 direction = _velocity;

@@ -8,12 +8,5 @@ public:
 	ParticleModel(Transform* tf, float resetTime, Vector3 pertubation, bool invertGravity);
 
 	void Update(float deltaTime) override;
-/*
-protected:
-
-public:
-	ParticleModel(Transform* transform, float mass, bool simulateGravity);
-	void Update(float deltaTime);
-*/
 };
 

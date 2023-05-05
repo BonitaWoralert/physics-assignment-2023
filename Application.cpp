@@ -186,7 +186,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
 		appearance = new Appearance(sphereGeometry, shinyMaterial);
-		gameObject = new GameObject("Sphere " + to_string(i), appearance, true, 1.0f);
+		gameObject = new GameObject("Sphere " + to_string(i), appearance, true, 1.5f);
 
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 4.0f, 10.0f);
@@ -195,7 +195,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 		_gameObjects.push_back(gameObject);
 	}
-	_gameObjects[2]->GetParticleModel()->SetMass(2.0f);
 	appearance = new Appearance(donutGeometry, shinyMaterial);
 	gameObject = new GameObject("Donut", appearance, false, 1.0f);
 	gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
@@ -203,8 +202,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 	_gameObjects.push_back(gameObject);
 	
-	//constant velocity
-	//_gameObjects[1]->GetParticleModel()->SetVelocity(Vector3(0, 1, 0));
+	//create colliders for game objects
 	_gameObjects[1]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[1]->GetTransform(), 1.0f));
 	_gameObjects[2]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[2]->GetTransform(), 1.0f));
 	return S_OK;
@@ -694,23 +692,23 @@ void Application::Cleanup()
 
 void Application::moveForward(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, 1.0f));
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, 0.8f));
 }
 
 void Application::moveBackward(int objectNumber)
 {
 
-	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, -1.0f));
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0, 0, -0.8f));
 }
 
 void Application::moveLeft(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(-1.0f, 0, 0));
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(-0.8f, 0, 0));
 }
 
 void Application::moveRight(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(1.0f, 0, 0));
+	_gameObjects[objectNumber]->GetParticleModel()->AddForce(Vector3(0.8f, 0, 0));
 }
 
 void Application::moveUp(int objectNumber)
@@ -830,16 +828,19 @@ void Application::Update()
 		{
 			if(_gameObjects[1]->GetParticleModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetParticleModel()->GetCollider())) {
 				
-				Vector3 relativeVelocity = _gameObjects[1]->GetParticleModel()->GetVelocity() - _gameObjects[2]->GetParticleModel()->GetVelocity();
-				float restitution = 0.5;
-				Vector3 collisionNormal = _gameObjects[1]->GetTransform()->GetPosition() - _gameObjects[2]->GetTransform()->GetPosition();
+				Vector3 relativeVelocity = _gameObjects[1]->GetParticleModel()->GetVelocity() - _gameObjects[2]->GetParticleModel()->GetVelocity(); //calculate relative velocity
+				float restitution = 0.5; 
+				//calculate and normalise collision normal 
+				Vector3 collisionNormal = _gameObjects[1]->GetTransform()->GetPosition() - _gameObjects[2]->GetTransform()->GetPosition(); 
 				collisionNormal.Normalize();
 
+				//inverse mass = 1/ mass
 				float inverseMass1 = 1/_gameObjects[1]->GetParticleModel()->GetMass();
 				float inverseMass2 = 1/_gameObjects[2]->GetParticleModel()->GetMass();
 
 				if (collisionNormal * relativeVelocity < 0.0f) //check objects are approaching each other
 				{
+					//apply collision response
 					float totalVelocity = -(1 + restitution) * (relativeVelocity * collisionNormal);
 					float J = totalVelocity * (inverseMass1 + inverseMass2);
 
