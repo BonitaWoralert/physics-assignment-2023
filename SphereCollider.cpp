@@ -25,5 +25,7 @@ bool SphereCollider::CollidesWith(PlaneCollider& other)
 
 bool SphereCollider::CollidesWith(AABBCollider& other)
 {
-    return false;
+    //they intersect if the (squared) distance between them is less than the (squared) sphere radius!
+    float sqDist = other.SqDistPointAABB(GetPosition());
+    return sqDist <= GetRadius() * GetRadius();
 }

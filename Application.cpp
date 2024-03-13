@@ -203,10 +203,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_gameObjects.push_back(gameObject);
 	
 	//create colliders for game objects
-	//_gameObjects[1]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[1]->GetTransform(), 1.0f));
+	_gameObjects[1]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[1]->GetTransform(), 1.0f));
 	//_gameObjects[2]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[2]->GetTransform(), 1.0f));
 
-	_gameObjects[1]->GetParticleModel()->SetCollider(new AABBCollider(_gameObjects[1]->GetTransform(), Vector3(-1.0f, -1.0f, -1.0f), Vector3(1.0f, 1.0f, 1.0f)));
+	//_gameObjects[1]->GetParticleModel()->SetCollider(new AABBCollider(_gameObjects[1]->GetTransform(), Vector3(-1.0f, -1.0f, -1.0f), Vector3(1.0f, 1.0f, 1.0f)));
 	_gameObjects[2]->GetParticleModel()->SetCollider(new AABBCollider(_gameObjects[2]->GetTransform(), Vector3(-1.0f, -1.0f, -1.0f), Vector3(1.0f, 1.0f, 1.0f)));
 
 	return S_OK;
