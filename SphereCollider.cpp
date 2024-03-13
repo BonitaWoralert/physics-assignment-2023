@@ -22,3 +22,8 @@ bool SphereCollider::CollidesWith(PlaneCollider& other)
 
     return false;
 }
+
+bool SphereCollider::CollidesWith(AABBCollider& other)
+{
+    return false;
+}

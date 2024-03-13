@@ -14,6 +14,7 @@ public:
 	virtual bool CollidesWith(Collider& other) override { return other.CollidesWith(*this); }
 	virtual bool CollidesWith(SphereCollider& other) override;
 	virtual bool CollidesWith(PlaneCollider& other) override;
+	virtual bool CollidesWith(AABBCollider& other) override;
 
 	float GetRadius() const { return radius; }
 

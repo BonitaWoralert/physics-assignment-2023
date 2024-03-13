@@ -38,6 +38,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="PlaneCollider.h" />
+    <ClInclude Include="AABBCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -59,6 +60,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
+    <ClCompile Include="AABBCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

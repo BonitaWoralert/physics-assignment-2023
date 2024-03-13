@@ -185,7 +185,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
-		appearance = new Appearance(sphereGeometry, shinyMaterial);
+		appearance = new Appearance(cubeGeometry, shinyMaterial);
 		gameObject = new GameObject("Sphere " + to_string(i), appearance, true, 1.5f);
 
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
@@ -203,8 +203,12 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_gameObjects.push_back(gameObject);
 	
 	//create colliders for game objects
-	_gameObjects[1]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[1]->GetTransform(), 1.0f));
-	_gameObjects[2]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[2]->GetTransform(), 1.0f));
+	//_gameObjects[1]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[1]->GetTransform(), 1.0f));
+	//_gameObjects[2]->GetParticleModel()->SetCollider(new SphereCollider(_gameObjects[2]->GetTransform(), 1.0f));
+
+	_gameObjects[1]->GetParticleModel()->SetCollider(new AABBCollider(_gameObjects[1]->GetTransform(), Vector3(-1.0f, -1.0f, -1.0f), Vector3(1.0f, 1.0f, 1.0f)));
+	_gameObjects[2]->GetParticleModel()->SetCollider(new AABBCollider(_gameObjects[2]->GetTransform(), Vector3(-1.0f, -1.0f, -1.0f), Vector3(1.0f, 1.0f, 1.0f)));
+
 	return S_OK;
 }
 
@@ -824,9 +828,9 @@ void Application::Update()
         _camera->Update();
 
 		//collision code - 2 spheres
-		if (_gameObjects[1]->GetParticleModel()->IsCollideable() && _gameObjects[2]->GetParticleModel()->IsCollideable())
+		if (_gameObjects[1]->GetParticleModel()->IsCollideable() && _gameObjects[2]->GetParticleModel()->IsCollideable()) //if they can collide
 		{
-			if(_gameObjects[1]->GetParticleModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetParticleModel()->GetCollider())) {
+			if(_gameObjects[1]->GetParticleModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetParticleModel()->GetCollider())) { 
 				
 				Vector3 relativeVelocity = _gameObjects[1]->GetParticleModel()->GetVelocity() - _gameObjects[2]->GetParticleModel()->GetVelocity(); //calculate relative velocity
 				float restitution = 0.5; 
@@ -845,7 +849,7 @@ void Application::Update()
 					float J = totalVelocity * (inverseMass1 + inverseMass2);
 
 					_gameObjects[1]->GetParticleModel()->ApplyImpulse(inverseMass1 * J * collisionNormal);
-					_gameObjects[2]->GetParticleModel()->ApplyImpulse(-(inverseMass2 * J* collisionNormal));
+					_gameObjects[2]->GetParticleModel()->ApplyImpulse(-(inverseMass2 * J * collisionNormal));
 				}
 			}
 		}

@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Collider.h"
 #include "SphereCollider.h"
+#include "AABBCollider.h"
 #include "Debug.h"
 class PhysicsModel
 {
