@@ -15,7 +15,7 @@ using namespace std;
 class GameObject
 {
 public:
-	GameObject(string type, Appearance* appearance);
+	GameObject(string type, Appearance* appearance, PhysicsModel* physics);
 	~GameObject();
 
 	string GetType() const { return _type; }
@@ -30,7 +30,7 @@ public:
 private:
 	Transform* _transform;
 	Appearance* _appearance;
-	ParticleModel* _physicsModel;
+	PhysicsModel* _physicsModel;
 
 	string _type;
 

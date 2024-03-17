@@ -1,9 +1,9 @@
 #include "GameObject.h"
 
-GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appearance(appearance)
+GameObject::GameObject(string type, Appearance* appearance, PhysicsModel* physics) : _type(type), _appearance(appearance), _physicsModel(physics)
 {
 	_transform = new Transform();
-	_physicsModel = new ParticleModel(_transform);
+	_physicsModel->SetTransform(_transform);
 	_parent = nullptr;
 }
 

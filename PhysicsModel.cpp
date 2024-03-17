@@ -1,15 +1,20 @@
 #include "PhysicsModel.h"
 
-PhysicsModel::PhysicsModel(Transform* t) : _transform(t)
+PhysicsModel::PhysicsModel()
 {
 }
 
-PhysicsModel::PhysicsModel(Transform* t, float mass) : _transform(t), _mass(mass)
+PhysicsModel::PhysicsModel(float mass, bool grav) : _mass(mass), _simulateGravity(grav)
 {
 }
 
 void PhysicsModel::Update(float deltaTime)
 {
+	if (_simulateGravity)
+	{
+		_netForce += GravityForce();
+	}
+
 	Vector3 position = _transform->GetPosition();
 	
 	//calculate acceleration using F = M * A
@@ -25,4 +30,10 @@ void PhysicsModel::Update(float deltaTime)
 	//velo and pos calculations complete, reset force and acceleration
 	_netForce = Vector3(0, 0, 0);
 	_acceleration = Vector3(0, 0, 0);
+}
+
+Vector3 PhysicsModel::GravityForce()
+{
+	//gravity strength * mass
+	return Vector3(0, -9.81 * _mass, 0);
 }

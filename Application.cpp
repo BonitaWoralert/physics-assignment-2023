@@ -167,7 +167,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	noSpecMaterial.specularPower = 0.0f;
 	
 	Appearance* appearance = new Appearance(planeGeometry, noSpecMaterial);
-	GameObject* gameObject = new GameObject("Floor", appearance);
+	ParticleModel* physics = new ParticleModel();
+	GameObject* gameObject = new GameObject("Floor", appearance, physics);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
 	gameObject->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
@@ -178,7 +179,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
 		appearance = new Appearance(cubeGeometry, shinyMaterial);
-		gameObject = new GameObject("Cube " + to_string(i), appearance);
+		physics = new ParticleModel(1.0f, true); //this has mass and gravity enabled
+		gameObject = new GameObject("Cube " + to_string(i), appearance, physics);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 1.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
@@ -186,7 +188,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_gameObjects.push_back(gameObject);
 	}
 	appearance = new Appearance(donutGeometry, shinyMaterial);
-	gameObject = new GameObject("Donut", appearance);
+	physics = new ParticleModel();
+	gameObject = new GameObject("Donut", appearance, physics);
 	gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 	gameObject->GetTransform()->SetPosition(-6.0f, 0.5f, 10.0f);
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
