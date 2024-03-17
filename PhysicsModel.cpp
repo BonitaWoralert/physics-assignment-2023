@@ -10,13 +10,25 @@ PhysicsModel::PhysicsModel(float mass, bool grav) : _mass(mass), _simulateGravit
 
 void PhysicsModel::Update(float deltaTime)
 {
-	if (_simulateGravity)
+	//initialise position
+	Vector3 position = _transform->GetPosition();
+
+	//gravity
+	if (_simulateGravity && position.y > 1.0f)
 	{
 		_netForce += GravityForce();
 	}
+	else //temporary until collision with ground is added
+	{
+		_velocity.y = 0;
+	}
 
-	Vector3 position = _transform->GetPosition();
-	
+	//add drag
+	_netForce += DragForce();
+
+	//add friction
+	_netForce += FrictionForce();
+
 	//calculate acceleration using F = M * A
 	_acceleration = _netForce / _mass;
 
@@ -35,5 +47,34 @@ void PhysicsModel::Update(float deltaTime)
 Vector3 PhysicsModel::GravityForce()
 {
 	//gravity strength * mass
-	return Vector3(0, -9.81 * _mass, 0);
+	return Vector3(0, GRAVITYSTRENGTH * _mass, 0);
+}
+
+Vector3 PhysicsModel::DragForce()
+{
+	//F = 0.5 * density * drag coefficient * reference area * velocity^2
+	// 
+	//start as negative velocity normalised
+	Vector3 dragForce = -_velocity; 
+	dragForce.Normalize();
+
+	//use formula to calculate value to scale by
+	float scaledValue = 0.5 * DENSITY * DRAGCOEFFICIENT * AREA * _velocity.Magnitude();
+
+	dragForce *= scaledValue;
+
+	return dragForce;
+}
+
+Vector3 PhysicsModel::FrictionForce()
+{
+	//F = coefficient of static friction * normal force
+	Vector3 frictionForce = -_velocity;
+	frictionForce.Normalize();
+	
+	float coefficient = 0.5f;
+
+	float scalar;
+
+	return Vector3();
 }
