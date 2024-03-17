@@ -6,7 +6,8 @@
 #include "Vector3.h"
 #include "Transform.h"
 #include "Appearance.h"
-#include "PhysicsModel.h"
+#include "ParticleModel.h"
+#include "RigidBodyModel.h"
 
 using namespace DirectX;
 using namespace std;
@@ -29,7 +30,7 @@ public:
 private:
 	Transform* _transform;
 	Appearance* _appearance;
-	PhysicsModel* _physicsModel;
+	ParticleModel* _physicsModel;
 
 	string _type;
 

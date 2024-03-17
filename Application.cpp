@@ -192,8 +192,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 	_gameObjects.push_back(gameObject);
 
-	_gameObjects[1]->GetPhysicsModel()->SetVelocity(Vector3(0, 1, 0));
-	_gameObjects[2]->GetPhysicsModel()->SetAcceleration(Vector3(0, 1, 0));
 	return S_OK;
 }
 
@@ -681,16 +679,12 @@ void Application::Cleanup()
 
 void Application::moveForward(int objectNumber)
 {
-	Vector3 position = _gameObjects[objectNumber]->GetTransform()->GetPosition();
-	position.z -= 0.02f;
-	_gameObjects[objectNumber]->GetTransform()->SetPosition(position);
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, -1.0f));
 }
 
 void Application::moveBackward(int objectNumber)
 {
-	Vector3 position = _gameObjects[objectNumber-2]->GetTransform()->GetPosition();
-	position.z += 0.02f;
-	_gameObjects[objectNumber-2]->GetTransform()->SetPosition(position);
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, 1.0f));
 }
 
 void Application::Update()
@@ -702,19 +696,7 @@ void Application::Update()
 
 	while (accumulatedTime >= FPS60)
 	{
-		
 		//do updates in here
-
-		// Update our time
-		static float timeSinceStart = 0.0f;
-		static DWORD dwTimeStart = 0;
-
-		DWORD dwTimeCur = GetTickCount64();
-
-		if (dwTimeStart == 0)
-			dwTimeStart = dwTimeCur;
-
-		timeSinceStart = (dwTimeCur - dwTimeStart) / 1000.0f;
 
 		// Move gameobject
 		if (GetAsyncKeyState('1'))
@@ -727,11 +709,11 @@ void Application::Update()
 		}
 		if (GetAsyncKeyState('3'))
 		{
-			moveBackward(3);
+			moveBackward(1);
 		}
 		if (GetAsyncKeyState('4'))
 		{
-			moveBackward(4);
+			moveBackward(2);
 		}
 		// Update camera
 		float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
@@ -749,7 +731,7 @@ void Application::Update()
 		// Update objects
 		for (auto gameObject : _gameObjects)
 		{
-			gameObject->Update(timeSinceStart);
+			gameObject->Update(accumulatedTime);
 		}
 
 		//tick

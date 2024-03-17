@@ -33,6 +33,8 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="PhysicsModel.h" />
+    <ClInclude Include="ParticleModel.h" />
+    <ClInclude Include="RigidBodyModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -49,6 +51,8 @@
     <ClCompile Include="Appearance.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="PhysicsModel.cpp" />
+    <ClCompile Include="ParticleModel.cpp" />
+    <ClCompile Include="RigidBodyModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

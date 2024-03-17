@@ -3,7 +3,7 @@
 GameObject::GameObject(string type, Appearance* appearance) : _type(type), _appearance(appearance)
 {
 	_transform = new Transform();
-	_physicsModel = new PhysicsModel(_transform);
+	_physicsModel = new ParticleModel(_transform);
 	_parent = nullptr;
 }
 
