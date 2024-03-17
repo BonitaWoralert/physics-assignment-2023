@@ -700,7 +700,6 @@ void Application::Update()
 
 	while (accumulatedTime >= FPS60)
 	{
-		OutputDebugStringA(timeStep.c_str());
 		
 		//do updates in here
 
@@ -752,6 +751,8 @@ void Application::Update()
 		}
 
 		//tick
+		//OutputDebugStringA(timeStep.c_str());
+		DebugPrintF("deltaTime is %f \n", accumulatedTime);
 		_timer->Tick();
 		accumulatedTime -= FPS60;
 	}
