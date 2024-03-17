@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #define NUMBEROFCUBES 2
+#define FPS60 1.0f/60.0f
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -77,6 +78,7 @@ Application::Application()
 	RSCullNone = nullptr;
 	 _WindowHeight = 0;
 	 _WindowWidth = 0;
+	 _timer = nullptr;
 }
 
 Application::~Application()
@@ -113,6 +115,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	{
 		return E_FAIL;
 	}
+
+	_timer = new Timer();
 
     // Setup Camera
 	XMFLOAT3 eye = XMFLOAT3(0.0f, 2.0f, -1.0f);
@@ -689,51 +693,67 @@ void Application::moveBackward(int objectNumber)
 
 void Application::Update()
 {
-    // Update our time
-    static float timeSinceStart = 0.0f;
-    static DWORD dwTimeStart = 0;
+	std::string timeStep;
+	float accumulatedTime = 0;
+	accumulatedTime += _timer->GetDeltaTime();
+	timeStep = std::to_string(accumulatedTime);
 
-    DWORD dwTimeCur = GetTickCount64();
-
-    if (dwTimeStart == 0)
-        dwTimeStart = dwTimeCur;
-
-	timeSinceStart = (dwTimeCur - dwTimeStart) / 1000.0f;
-
-	// Move gameobject
-	if (GetAsyncKeyState('1'))
+	while (accumulatedTime >= FPS60)
 	{
-		moveForward(1);
-	}
-	if (GetAsyncKeyState('2'))
-	{
-		moveForward(2);
-	}
-	if (GetAsyncKeyState('3'))
-	{
-		moveBackward(3);
-	}
-	if (GetAsyncKeyState('4'))
-	{
-		moveBackward(4);
-	}
-	// Update camera
-	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
+		OutputDebugStringA(timeStep.c_str());
+		
+		//do updates in here
 
-	float x = _cameraOrbitRadius * cos(angleAroundZ);
-	float z = _cameraOrbitRadius * sin(angleAroundZ);
+		// Update our time
+		static float timeSinceStart = 0.0f;
+		static DWORD dwTimeStart = 0;
 
-	XMFLOAT3 cameraPos = _camera->GetPosition();
-	cameraPos.x = x;
-	cameraPos.z = z;
+		DWORD dwTimeCur = GetTickCount64();
 
-	_camera->SetPosition(cameraPos);
-	_camera->Update();
+		if (dwTimeStart == 0)
+			dwTimeStart = dwTimeCur;
 
-	// Update objects
-	for (auto gameObject : _gameObjects)
-	{
-		gameObject->Update(timeSinceStart);
+		timeSinceStart = (dwTimeCur - dwTimeStart) / 1000.0f;
+
+		// Move gameobject
+		if (GetAsyncKeyState('1'))
+		{
+			moveForward(1);
+		}
+		if (GetAsyncKeyState('2'))
+		{
+			moveForward(2);
+		}
+		if (GetAsyncKeyState('3'))
+		{
+			moveBackward(3);
+		}
+		if (GetAsyncKeyState('4'))
+		{
+			moveBackward(4);
+		}
+		// Update camera
+		float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
+
+		float x = _cameraOrbitRadius * cos(angleAroundZ);
+		float z = _cameraOrbitRadius * sin(angleAroundZ);
+
+		XMFLOAT3 cameraPos = _camera->GetPosition();
+		cameraPos.x = x;
+		cameraPos.z = z;
+
+		_camera->SetPosition(cameraPos);
+		_camera->Update();
+
+		// Update objects
+		for (auto gameObject : _gameObjects)
+		{
+			gameObject->Update(timeSinceStart);
+		}
+
+		//tick
+		_timer->Tick();
+		accumulatedTime -= FPS60;
 	}
 }
 

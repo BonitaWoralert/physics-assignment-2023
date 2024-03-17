@@ -13,6 +13,7 @@
 #include "Structures.h"
 #include "GameObject.h"
 #include "Vector3.h"
+#include "Timer.h"
 
 using namespace DirectX;
 
@@ -52,6 +53,8 @@ private:
 	Light basicLight;
 
 	vector<GameObject *> _gameObjects;
+
+	Timer* _timer;
 
 	Camera * _camera = nullptr;
 	float _cameraOrbitRadius = 7.0f;
