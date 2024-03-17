@@ -377,6 +377,7 @@
     <ClCompile Include="Loaders\OBJLoader.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="PhysicsModel.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -388,6 +389,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Loaders\DDSTextureLoader.h" />
     <ClInclude Include="Loaders\OBJLoader.h" />
+    <ClInclude Include="PhysicsModel.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="Timer.h" />

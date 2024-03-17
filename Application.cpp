@@ -192,6 +192,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 	_gameObjects.push_back(gameObject);
 
+	_gameObjects[1]->GetPhysicsModel()->SetVelocity(Vector3(0, 1, 0));
+
 	return S_OK;
 }
 
@@ -806,7 +808,7 @@ void Application::Draw()
 		cb.surface.SpecularMtrl = material.specular;
 
 		// Set world matrix
-		cb.World = XMMatrixTranspose(gameObject->GetWorldMatrix());
+		cb.World = XMMatrixTranspose(gameObject->GetTransform()->GetWorldMatrix());
 
 		// Set texture
 		if (gameObject->GetAppearance()->HasTexture())

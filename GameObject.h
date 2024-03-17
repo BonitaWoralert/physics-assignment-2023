@@ -6,6 +6,7 @@
 #include "Vector3.h"
 #include "Transform.h"
 #include "Appearance.h"
+#include "PhysicsModel.h"
 
 using namespace DirectX;
 using namespace std;
@@ -18,21 +19,19 @@ public:
 
 	string GetType() const { return _type; }
 
-	XMMATRIX GetWorldMatrix() const { return XMLoadFloat4x4(&_world); }
-
 	void SetParent(GameObject * parent) { _parent = parent; }
 
 	void Update(float t);
 
 	Transform* GetTransform() { return _transform; }
 	Appearance* GetAppearance() { return _appearance; }
+	PhysicsModel* GetPhysicsModel() { return _physicsModel; }
 private:
 	Transform* _transform;
 	Appearance* _appearance;
+	PhysicsModel* _physicsModel;
 
 	string _type;
-
-	XMFLOAT4X4 _world;
 
 	GameObject * _parent;
 
