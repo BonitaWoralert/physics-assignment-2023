@@ -193,7 +193,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_gameObjects.push_back(gameObject);
 
 	_gameObjects[1]->GetPhysicsModel()->SetVelocity(Vector3(0, 1, 0));
-
+	_gameObjects[2]->GetPhysicsModel()->SetAcceleration(Vector3(0, 1, 0));
 	return S_OK;
 }
 
