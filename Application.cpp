@@ -167,7 +167,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	noSpecMaterial.specularPower = 0.0f;
 	
 	Appearance* appearance = new Appearance(planeGeometry, noSpecMaterial);
-	ParticleModel* physics = new ParticleModel();
+	RigidBodyModel* physics = new RigidBodyModel();
 	GameObject* gameObject = new GameObject("Floor", appearance, physics);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
@@ -179,16 +179,20 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	for (auto i = 0; i < NUMBEROFCUBES; i++)
 	{
 		appearance = new Appearance(cubeGeometry, shinyMaterial);
-		physics = new ParticleModel(1.0f, true); //this has mass and gravity enabled
+		physics = new RigidBodyModel(1.0f, true); //this has mass and gravity enabled
 		gameObject = new GameObject("Cube " + to_string(i), appearance, physics);
 		gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 		gameObject->GetTransform()->SetPosition(-3.0f + (i * 2.5f), 1.0f, 10.0f);
 		gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 
+		//add sphere collider
+		SphereCollider* collider = new SphereCollider(gameObject->GetTransform(), 1.0f);
+		gameObject->GetPhysicsModel()->SetCollider(collider);
+
 		_gameObjects.push_back(gameObject);
 	}
 	appearance = new Appearance(donutGeometry, shinyMaterial);
-	physics = new ParticleModel();
+	physics = new RigidBodyModel();
 	gameObject = new GameObject("Donut", appearance, physics);
 	gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 	gameObject->GetTransform()->SetPosition(-6.0f, 0.5f, 10.0f);
@@ -682,12 +686,22 @@ void Application::Cleanup()
 
 void Application::moveForward(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, -1.0f));
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, 5.0f));
 }
 
 void Application::moveBackward(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, 1.0f));
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, -5.0f));
+}
+
+void Application::moveLeft(int objectNumber)
+{
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(-5.0f, 0, 0));
+}
+
+void Application::moveRight(int objectNumber)
+{
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(5.0f, 0, 0));
 }
 
 void Application::Update()
@@ -701,22 +715,32 @@ void Application::Update()
 	{
 		//do updates in here
 
-		// Move gameobject
+		static int currentObject = 1; //default object is 1
+
+		//set current object
 		if (GetAsyncKeyState('1'))
-		{
-			moveForward(1);
-		}
+			currentObject = 1;
 		if (GetAsyncKeyState('2'))
-		{
-			moveForward(2);
-		}
+			currentObject = 2;
 		if (GetAsyncKeyState('3'))
+			currentObject = 3;
+
+		// Move gameobject
+		if (GetAsyncKeyState(0x57)) //W
 		{
-			moveBackward(1);
+			moveForward(currentObject);
 		}
-		if (GetAsyncKeyState('4'))
+		if (GetAsyncKeyState(0x41)) //A
 		{
-			moveBackward(2);
+			moveLeft(currentObject);
+		}
+		if (GetAsyncKeyState(0x53)) //S
+		{
+			moveBackward(currentObject);
+		}
+		if (GetAsyncKeyState(0x44)) //D
+		{
+			moveRight(currentObject);
 		}
 		// Update camera
 		float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);

@@ -1,5 +1,6 @@
 #pragma once
 #include "Transform.h"
+#include "Collider.h"
 
 #define GRAVITYSTRENGTH -9.81f
 
@@ -30,7 +31,12 @@ public:
 	Vector3 GetAcceleration() { return _acceleration; }
 
 	void SetTransform(Transform* newTransform) { _transform = newTransform; }
+
+	bool IsCollideable() const { return _collider != nullptr; }
+	Collider* GetCollider() const { return _collider; }
+	void SetCollider(Collider* newCollider) { _collider = newCollider; }
 protected:
+	Collider* _collider = nullptr;
 	Transform* _transform = nullptr;
 	Vector3 _velocity;
 	Vector3 _acceleration;

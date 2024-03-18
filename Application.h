@@ -15,6 +15,7 @@
 #include "Vector3.h"
 #include "Timer.h"
 #include "Debug.h"
+#include "SphereCollider.h"
 
 using namespace DirectX;
 
@@ -88,6 +89,8 @@ private:
 
 	void moveForward(int objectNumber);
 	void moveBackward(int objectNumber);
+	void moveLeft(int objectNumber);
+	void moveRight(int objectNumber);
 
 public:
 	Application();
