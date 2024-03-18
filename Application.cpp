@@ -756,6 +756,14 @@ void Application::Update()
 		_camera->Update();
 
 		// Update objects
+
+		//collision test code
+		if (_gameObjects[1]->GetPhysicsModel()->IsCollideable() && _gameObjects[2]->GetPhysicsModel()->IsCollideable())
+		{
+			if(_gameObjects[1]->GetPhysicsModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetPhysicsModel()->GetCollider()))
+				DebugPrintF("collision?");
+		}
+
 		for (auto gameObject : _gameObjects)
 		{
 			gameObject->Update(accumulatedTime);
