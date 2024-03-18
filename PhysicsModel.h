@@ -22,8 +22,12 @@ public:
 	Vector3 GravityForce();
 	Vector3 DragForce();
 	Vector3 FrictionForce();
+	void ApplyImpulse(Vector3 impulse) { _velocity += impulse; }
+	void CollisionResponse();
 
 	//getters and setters
+	float GetMass() { return _mass; }
+
 	void SetVelocity(Vector3 newVelocity) { _velocity = newVelocity; }
 	Vector3 GetVelocity() { return _velocity; }
 	
@@ -36,13 +40,20 @@ public:
 	Collider* GetCollider() const { return _collider; }
 	void SetCollider(Collider* newCollider) { _collider = newCollider; }
 protected:
+	//collision
 	Collider* _collider = nullptr;
+
+	//transform	
 	Transform* _transform = nullptr;
+
+	//forces
 	Vector3 _velocity;
 	Vector3 _acceleration;
 	Vector3 _netForce;
 	float _mass = 1.0f;
 	bool _simulateGravity = false;
 	float _drag;
+
+
 };
 

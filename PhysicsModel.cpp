@@ -78,3 +78,15 @@ Vector3 PhysicsModel::FrictionForce() //unfinished
 
 	return Vector3();
 }
+
+void PhysicsModel::CollisionResponse()
+{
+	/* if(collisionNormal * relativeVelocity < 0.0f) //check objects are approaching each other
+	Vector3 collision normal = object1 position – object 2 position // normalized
+	float restitution; // between 0 and 1 for testing
+	vector3 relative velocity = object1 velocity – object2 velocity // not normalized
+	float vj = -(1+e) collisionNormal * relativeVelcoity
+	float J = vj * (inverse mass 1 + inverse mass 2)
+	object1 -> ApplyImpulse(inverse Mass 1 * J * collisionNormal)
+	object2 -> ApplyImpulse (-(inverse Mass 2* J * collisionNormal)) //reversed */
+}

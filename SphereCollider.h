@@ -4,6 +4,11 @@ class SphereCollider : public Collider
 {
 private:
 	float _radius = 1.0f;
+
+	//collision
+	float _penetration = 0.0f;
+	Vector3 _normal = Vector3(0, 0, 0);
+	Vector3 _contactPoint = Vector3(0, 0, 0);
 public:
 	SphereCollider(Transform* t, float r) : Collider(t) { _radius = r; }
 

@@ -209,6 +209,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//sphere collider
 	SphereCollider* collider = new SphereCollider(gameObject->GetTransform(), 1.0f);
+	//AABBCollider* collider = new AABBCollider(gameObject->GetTransform(), Vector3(1, 1, 1));
 	gameObject->GetPhysicsModel()->SetCollider(collider);
 
 	_gameObjects.push_back(gameObject);
@@ -700,22 +701,22 @@ void Application::Cleanup()
 
 void Application::moveForward(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, 5.0f));
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, 2.0f));
 }
 
 void Application::moveBackward(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, -5.0f));
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(0, 0, -2.0f));
 }
 
 void Application::moveLeft(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(-5.0f, 0, 0));
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(-2.0f, 0, 0));
 }
 
 void Application::moveRight(int objectNumber)
 {
-	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(5.0f, 0, 0));
+	_gameObjects[objectNumber]->GetPhysicsModel()->AddForce(Vector3(2.0f, 0, 0));
 }
 
 void Application::Update()
@@ -772,10 +773,38 @@ void Application::Update()
 		// Update objects
 
 		//collision test code
-		if (_gameObjects[3]->GetPhysicsModel()->IsCollideable() && _gameObjects[1]->GetPhysicsModel()->IsCollideable())
+		//DEFINITELY refactor this later and make it nicer.
+		if (_gameObjects[2]->GetPhysicsModel()->IsCollideable() && _gameObjects[1]->GetPhysicsModel()->IsCollideable())
 		{
-			if(_gameObjects[3]->GetPhysicsModel()->GetCollider()->CollidesWith(*_gameObjects[1]->GetPhysicsModel()->GetCollider()))
+			if (_gameObjects[2]->GetPhysicsModel()->GetCollider()->CollidesWith(*_gameObjects[1]->GetPhysicsModel()->GetCollider()))
+			{
 				DebugPrintF("collision?");
+
+				//calculate relative velocity by subtracting one object's velocity from the other
+				Vector3 relativeVelocity = _gameObjects[1]->GetPhysicsModel()->GetVelocity() - _gameObjects[2]->GetPhysicsModel()->GetVelocity();
+				//hardcoded value for now, between 0 and 1 normally
+				float restitution = 0.5; 
+				//calculate and normalise collision normal
+				//position a - position b
+				Vector3 collisionNormal = _gameObjects[1]->GetTransform()->GetPosition() - _gameObjects[2]->GetTransform()->GetPosition();
+				collisionNormal.Normalize();
+
+				//check objects are approaching one another
+				if (collisionNormal * relativeVelocity < 0.0f)
+				{
+					//inverse mass 1 and 2 calculated by 1/mass
+					float inverseMass1 = 1 / _gameObjects[1]->GetPhysicsModel()->GetMass();
+					float inverseMass2 = 1 / _gameObjects[2]->GetPhysicsModel()->GetMass();
+
+					//apply collision response
+					float totalVelocity = -(1 + restitution) * (relativeVelocity * collisionNormal);
+					float J = totalVelocity * (inverseMass1 + inverseMass2);
+
+					//apply impulses
+					_gameObjects[1]->GetPhysicsModel()->ApplyImpulse(inverseMass1 * J * collisionNormal);
+					_gameObjects[2]->GetPhysicsModel()->ApplyImpulse(-(inverseMass2 * J * collisionNormal)); //reversed
+				}
+			}
 		}
 
 		for (auto gameObject : _gameObjects)

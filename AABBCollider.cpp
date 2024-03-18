@@ -2,6 +2,12 @@
 
 bool AABBCollider::CollidesWith(SphereCollider& other)
 {
+	/*NEED TO IMPLEMENT :
+	- sphere's center position must be converted into the box's local coordinates
+	to do this, we do:
+	centerpos * inverse(cube model matrix)
+	*/
+
 	//distance between sphere center and AABB position
 	//then compare with radius
 	//if distance < radius, then they are colliding
@@ -27,8 +33,8 @@ bool AABBCollider::CollidesWith(SphereCollider& other)
 	closestPoint.z = dist;
 
 	//distance bigger than radius
-	dist = (closestPoint - otherPos).Magnitude(); //square magnitude to avoid sqrt
-	if (dist > other.GetRadius()) return 0;
+	dist = (closestPoint - otherPos).SquareMagnitude(); //square magnitude to avoid sqrt
+	if (dist > other.GetRadius() * other.GetRadius()) return 0;
 
 	//return collision
 	return 1;
