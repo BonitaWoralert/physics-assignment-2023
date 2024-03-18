@@ -3,7 +3,7 @@
 bool SphereCollider::CollidesWith(SphereCollider& other)
 {
     //vector between the 2 objects
-    Vector3 midline = _transform->GetPosition() - other._transform->GetPosition();
+    Vector3 midline = GetPosition() - other.GetPosition();
     float size = midline.Magnitude();
 
     //check if size is large enough
@@ -17,6 +17,11 @@ bool SphereCollider::CollidesWith(SphereCollider& other)
 }
 
 bool SphereCollider::CollidesWith(AABBCollider& other)
+{
+    return false;
+}
+
+bool SphereCollider::CollidesWith(PlaneCollider& other)
 {
     return false;
 }

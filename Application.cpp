@@ -132,6 +132,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	basicLight.SpecularPower = 20.0f;
 	basicLight.LightVecW = XMFLOAT3(0.0f, 1.0f, -1.0f);
 
+	//geometry
 	Geometry donutGeometry;
 	objMeshData = OBJLoader::Load("Assets/3DModels/donut.obj", _pd3dDevice);
 	donutGeometry.indexBuffer = objMeshData.IndexBuffer;
@@ -140,6 +141,14 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	donutGeometry.vertexBufferOffset = objMeshData.VBOffset;
 	donutGeometry.vertexBufferStride = objMeshData.VBStride;
 	
+	Geometry sphereGeometry;
+	objMeshData = OBJLoader::Load("Assets/3DModels/sphere.obj", _pd3dDevice);
+	sphereGeometry.indexBuffer = objMeshData.IndexBuffer;
+	sphereGeometry.numberOfIndices = objMeshData.IndexCount;
+	sphereGeometry.vertexBuffer = objMeshData.VertexBuffer;
+	sphereGeometry.vertexBufferOffset = objMeshData.VBOffset;
+	sphereGeometry.vertexBufferStride = objMeshData.VBStride;
+
 	Geometry cubeGeometry;
 	cubeGeometry.indexBuffer = _pIndexBuffer;
 	cubeGeometry.vertexBuffer = _pVertexBuffer;
@@ -191,12 +200,17 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 		_gameObjects.push_back(gameObject);
 	}
-	appearance = new Appearance(donutGeometry, shinyMaterial);
-	physics = new RigidBodyModel();
-	gameObject = new GameObject("Donut", appearance, physics);
-	gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
-	gameObject->GetTransform()->SetPosition(-6.0f, 0.5f, 10.0f);
+	appearance = new Appearance(sphereGeometry, shinyMaterial);
+	physics = new RigidBodyModel(1.0f, true);
+	gameObject = new GameObject("Sphere", appearance, physics);
+	gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
+	gameObject->GetTransform()->SetPosition(-6.0f, 1.0f, 10.0f);
 	gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
+
+	//sphere collider
+	SphereCollider* collider = new SphereCollider(gameObject->GetTransform(), 1.0f);
+	gameObject->GetPhysicsModel()->SetCollider(collider);
+
 	_gameObjects.push_back(gameObject);
 
 	return S_OK;
@@ -758,9 +772,9 @@ void Application::Update()
 		// Update objects
 
 		//collision test code
-		if (_gameObjects[1]->GetPhysicsModel()->IsCollideable() && _gameObjects[2]->GetPhysicsModel()->IsCollideable())
+		if (_gameObjects[3]->GetPhysicsModel()->IsCollideable() && _gameObjects[1]->GetPhysicsModel()->IsCollideable())
 		{
-			if(_gameObjects[1]->GetPhysicsModel()->GetCollider()->CollidesWith(*_gameObjects[2]->GetPhysicsModel()->GetCollider()))
+			if(_gameObjects[3]->GetPhysicsModel()->GetCollider()->CollidesWith(*_gameObjects[1]->GetPhysicsModel()->GetCollider()))
 				DebugPrintF("collision?");
 		}
 
@@ -771,7 +785,7 @@ void Application::Update()
 
 		//tick
 		//OutputDebugStringA(timeStep.c_str());
-		DebugPrintF("deltaTime is %f \n", accumulatedTime);
+		//DebugPrintF("deltaTime is %f \n", accumulatedTime);
 		_timer->Tick();
 		accumulatedTime -= FPS60;
 	}

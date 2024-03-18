@@ -381,6 +381,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="PhysicsModel.cpp" />
+    <ClCompile Include="PlaneCollider.cpp" />
     <ClCompile Include="RigidBodyModel.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -398,6 +399,7 @@
     <ClInclude Include="Loaders\OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="PhysicsModel.h" />
+    <ClInclude Include="PlaneCollider.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="RigidBodyModel.h" />
     <ClInclude Include="SphereCollider.h" />

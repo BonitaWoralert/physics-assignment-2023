@@ -1,20 +1,16 @@
 #pragma once
 #include "Collider.h"
-#include "SphereCollider.h"
-#include <cmath>
-
-class AABBCollider : public Collider
+class PlaneCollider : public Collider
 {
 private:
-	Vector3 _halfWidth; //half width extents (x,y,z)
+	Vector3 _normal;
+	float _offset;
 public:
-	AABBCollider(Transform* t, Vector3 halfWidth) : Collider(t) { _halfWidth = halfWidth;}
+	PlaneCollider(Transform* t, Vector3 normal, float offset) : Collider(t) { _normal = normal, _offset = offset; }
 
 	virtual bool CollidesWith(Collider& other) override { return other.CollidesWith(*this); }
 	virtual bool CollidesWith(SphereCollider& other) override;
 	virtual bool CollidesWith(AABBCollider& other) override;
 	virtual bool CollidesWith(PlaneCollider& other) override;
-
-	Vector3 GetHalfWidth() const { return _halfWidth; }
 };
 
