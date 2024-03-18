@@ -186,7 +186,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		gameObject->GetAppearance()->SetTextureRV(_pTextureRV);
 
 		//add sphere collider
-		SphereCollider* collider = new SphereCollider(gameObject->GetTransform(), 1.0f);
+		AABBCollider* collider = new AABBCollider(gameObject->GetTransform(), Vector3(1,1,1));
 		gameObject->GetPhysicsModel()->SetCollider(collider);
 
 		_gameObjects.push_back(gameObject);

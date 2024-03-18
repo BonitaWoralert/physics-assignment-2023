@@ -15,3 +15,8 @@ bool SphereCollider::CollidesWith(SphereCollider& other)
     //return collision
     return 1;
 }
+
+bool SphereCollider::CollidesWith(AABBCollider& other)
+{
+    return false;
+}

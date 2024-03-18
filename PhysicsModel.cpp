@@ -66,7 +66,7 @@ Vector3 PhysicsModel::DragForce()
 	return dragForce;
 }
 
-Vector3 PhysicsModel::FrictionForce()
+Vector3 PhysicsModel::FrictionForce() //unfinished
 {
 	//F = coefficient of static friction * normal force
 	Vector3 frictionForce = -_velocity;

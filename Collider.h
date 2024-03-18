@@ -3,6 +3,7 @@
 
 //forward declare colllision classes
 class SphereCollider;
+class AABBCollider;
 
 class Collider abstract
 {
@@ -13,6 +14,7 @@ public:
 
 	virtual bool CollidesWith(Collider& other) = 0;
 	virtual bool CollidesWith(SphereCollider& other) = 0;
+	virtual bool CollidesWith(AABBCollider& other) = 0;
 
 	Vector3 GetPosition() const { return _transform->GetPosition(); }
 };
